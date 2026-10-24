@@ -1,0 +1,6 @@
+{
+  "name": "LingoSphere",
+  "description": "AI-powered language learning platform with interactive speaking tutor, personalized lessons, roleplay scenarios, and fluency tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

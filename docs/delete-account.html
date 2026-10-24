@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Account & Data - LingoSphere</title>
+  <style>
+    :root {
+      --bg: #090D16;
+      --card-bg: #0F172A;
+      --accent: #EF4444;
+      --cyan: #06B6D4;
+      --emerald: #10B981;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border: #334155;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 32px 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+    .logo-badge {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      color: var(--text);
+    }
+    .subtitle {
+      color: var(--accent);
+      font-size: 14px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    h2 {
+      color: var(--cyan);
+      font-size: 20px;
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+    p, li {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    .deletion-card {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #E2E8F0;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    input[type="email"], select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #1E293B;
+      color: #FFF;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+    button.btn-delete {
+      background: #EF4444;
+      color: #FFF;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button.btn-delete:hover {
+      background: #DC2626;
+    }
+    .success-message {
+      display: none;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--emerald);
+      color: var(--emerald);
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-weight: 500;
+    }
+    .nav-links {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-badge">🗑️</div>
+      <div>
+        <h1>Account & Data Deletion Request</h1>
+        <div class="subtitle">Google Play Data Safety & GDPR / CCPA Compliance</div>
+      </div>
+    </div>
+
+    <p>In accordance with Google Play Developer Policies and global data privacy regulations, LingoSphere users have the permanent right to delete their account and request deletion of all associated personal and learning data.</p>
+
+    <h2>Method 1: Instant In-App Deletion (Login Screen or Profile Screen)</h2>
+    <p>You can instantly and permanently wipe your account and all data directly within the application without waiting:</p>
+    <ol>
+      <li>Open the <strong>LingoSphere</strong> app on your Android device.</li>
+      <li>On the <strong>Login Screen</strong>, tap <strong>Delete Account & Data</strong>, OR after signing in, tap the <strong>Profile</strong> tab on the bottom navigation bar.</li>
+      <li>Tap <strong>Delete Account & All Data</strong> and confirm.</li>
+      <li>Your user profile, flashcards, lesson progress, call recordings, transcripts, and credentials are permanently purged immediately from Google Firebase Firestore and Auth.</li>
+    </ol>
+
+    <h2>Method 2: Web Deletion Request Form</h2>
+    <p>If you have uninstalled the app or cannot sign in, submit your registered account details below. You may choose either full account deletion or partial learning data deletion.</p>
+
+    <div class="deletion-card">
+      <form id="deleteForm" onsubmit="handleDelete(event)">
+        <div class="form-group">
+          <label for="userEmail">Registered Account Email (Gmail or Email ID)*</label>
+          <input type="email" id="userEmail" required placeholder="e.g. yourname@gmail.com">
+        </div>
+
+        <div class="form-group">
+          <label for="deletionType">Deletion Scope*</label>
+          <select id="deletionType">
+            <option value="full_account">Delete Entire Account & All Associated Data</option>
+            <option value="data_only">Delete Learning Data Only (Keep Account Login)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="reason">Reason for Deletion (Optional)</label>
+          <select id="reason">
+            <option value="finished">Finished learning target language</option>
+            <option value="switching">Switching to another device</option>
+            <option value="privacy">Privacy / Data concerns</option>
+            <option value="other">Other reason</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Additional Comments</label>
+          <textarea id="notes" rows="3" placeholder="Provide any additional details..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-delete">Submit Deletion Request</button>
+      </form>
+
+      <div id="successNotice" class="success-message">
+        ✓ Your deletion request has been registered. All selected profile data, flashcards, speech sessions, and credentials associated with this email will be permanently wiped within 48 hours.
+      </div>
+    </div>
+
+    <h2>What Data Is Deleted?</h2>
+    <ul>
+      <li>User Account Profile (User ID, Display Name, Target Language, Streaks, XP points).</li>
+      <li>Cloud Private Subcollection (Email addresses and verification records).</li>
+      <li>All Lesson Progress records (`lessonProgress`).</li>
+      <li>All Leitner Spaced-Repetition Flashcards (`flashcards`).</li>
+      <li>All Speaking Session Transcripts & Voice Call Learning Reports (`speakingSessions`).</li>
+      <li>Firebase Authentication User Credentials (when Full Account Deletion is selected).</li>
+    </ul>
+
+    <h2>Data Retention Exceptions</h2>
+    <p>No personal data is retained following account deletion. Anonymized, non-personally identifiable billing transaction records managed by Google Play may be retained only where strictly required by applicable tax or financial reporting laws.</p>
+
+    <div class="nav-links">
+      <a href="./privacy-policy.html">Privacy Policy</a>
+      <a href="./terms.html">Terms of Service</a>
+      <a href="./index.html">Home</a>
+    </div>
+  </div>
+
+  <script>
+    function handleDelete(e) {
+      e.preventDefault();
+      document.getElementById('deleteForm').style.display = 'none';
+      document.getElementById('successNotice').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

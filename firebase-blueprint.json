@@ -1,0 +1,169 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Public profile, language preferences, and gamification state for a learner",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "displayName": { "type": "string", "description": "Learner name" },
+        "nativeLanguageCode": { "type": "string", "description": "Native language code e.g. en, es, ar, ur" },
+        "targetLanguageCode": { "type": "string", "description": "Target language code e.g. es, fr, ja, ar, ur" },
+        "activeLanguages": { "type": "array", "description": "List of languages being learned" },
+        "proficiencyLevel": { "type": "string", "enum": ["Beginner", "Intermediate", "Advanced"] },
+        "xpPoints": { "type": "integer", "description": "Experience points" },
+        "level": { "type": "integer", "description": "Level calculated from XP" },
+        "currentStreak": { "type": "integer", "description": "Daily streak days" },
+        "longestStreak": { "type": "integer", "description": "Record streak days" },
+        "lastActiveDate": { "type": "string", "description": "ISO date YYYY-MM-DD" },
+        "dailyGoalMinutes": { "type": "integer", "description": "Daily study target in minutes" },
+        "dailyAiSpeakingCount": { "type": "integer", "description": "Count of AI speaking turns practiced today" },
+        "dailyAiResetDate": { "type": "string", "description": "ISO date YYYY-MM-DD" },
+        "subscriptionTier": { "type": "string", "enum": ["free", "premium_monthly", "premium_yearly"] },
+        "completedLessonIds": { "type": "array", "description": "IDs of completed curriculum lessons" },
+        "achievements": { "type": "array", "description": "Badges and achievements unlocked" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "nativeLanguageCode",
+        "targetLanguageCode",
+        "activeLanguages",
+        "proficiencyLevel",
+        "xpPoints",
+        "level",
+        "currentStreak",
+        "longestStreak",
+        "lastActiveDate",
+        "dailyGoalMinutes",
+        "dailyAiSpeakingCount",
+        "dailyAiResetDate",
+        "subscriptionTier",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Strictly isolated private PII for a learner",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "email": { "type": "string", "description": "Owner email address" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email", "updatedAt"]
+    },
+    "LessonProgress": {
+      "title": "LessonProgress",
+      "description": "Progress tracking for completed lesson modules and quizzes",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "lessonId": { "type": "string", "description": "Unique lesson unit identifier" },
+        "languageCode": { "type": "string", "description": "Target language studied" },
+        "category": { "type": "string", "enum": ["Vocabulary", "Grammar", "Listening", "Reading", "Writing", "Quiz"] },
+        "scorePercent": { "type": "integer", "description": "Percentage score 0-100" },
+        "xpEarned": { "type": "integer", "description": "XP gained from completion" },
+        "completed": { "type": "boolean", "description": "Whether module is finished" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId",
+        "lessonId",
+        "languageCode",
+        "category",
+        "scorePercent",
+        "xpEarned",
+        "completed",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "FlashcardProgress": {
+      "title": "FlashcardProgress",
+      "description": "Spaced repetition flashcard mastery per user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "wordId": { "type": "string", "description": "Word/phrase identifier" },
+        "languageCode": { "type": "string", "description": "Language code" },
+        "frontText": { "type": "string", "description": "Word in target language" },
+        "backText": { "type": "string", "description": "Translation in native language" },
+        "pronunciation": { "type": "string", "description": "Phonetic / IPA pronunciation" },
+        "boxLevel": { "type": "integer", "description": "Leitner box level 1 to 5" },
+        "nextReviewEpochDay": { "type": "integer", "description": "Epoch day for scheduled review" },
+        "mastered": { "type": "boolean", "description": "Whether term is fully mastered" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId",
+        "wordId",
+        "languageCode",
+        "frontText",
+        "backText",
+        "pronunciation",
+        "boxLevel",
+        "nextReviewEpochDay",
+        "mastered",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "SpeakingSession": {
+      "title": "SpeakingSession",
+      "description": "History and evaluation of AI Speaking Tutor and Roleplay conversations",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "languageCode": { "type": "string", "description": "Language practiced" },
+        "mode": { "type": "string", "enum": ["Tutor", "Roleplay"] },
+        "scenarioTitle": { "type": "string", "description": "Scenario or conversation topic" },
+        "proficiencyLevel": { "type": "string", "enum": ["Beginner", "Intermediate", "Advanced"] },
+        "turnsCount": { "type": "integer", "description": "Total dialogue turns exchanged" },
+        "fluencyScore": { "type": "integer", "description": "Fluency score 0-100" },
+        "grammarFeedbackSummary": { "type": "string", "description": "Grammar and pronunciation review" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId",
+        "languageCode",
+        "mode",
+        "scenarioTitle",
+        "proficiencyLevel",
+        "turnsCount",
+        "fluencyScore",
+        "grammarFeedbackSummary",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles and language progress"
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "Isolated private PII"
+    },
+    "/lesson_progress/{progressId}": {
+      "schema": { "$ref": "#/entities/LessonProgress" },
+      "description": "Lesson and quiz completion progress"
+    },
+    "/flashcards/{cardId}": {
+      "schema": { "$ref": "#/entities/FlashcardProgress" },
+      "description": "Spaced repetition flashcards"
+    },
+    "/speaking_sessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/SpeakingSession" },
+      "description": "AI conversation history and feedback"
+    }
+  }
+}
